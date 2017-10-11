@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import sys
 
 FILENAMES = [
     [ '1 Nephi',         '01-1 Nephi.txt' ],
@@ -25,7 +26,11 @@ FILENAMES = [
 def analyze_text(book, text):
     '''Performs a very naive analysis of the words in the text, returning the SORTED list of WordData items'''
     # lowercase the entire text
-    
+    file = open(text, 'rW')
+
+    for line in file:
+        file.write(line.lower())
+
 
     # split the text by whitespace to get a list of words
 
