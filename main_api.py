@@ -25,6 +25,7 @@ FILENAMES = [
 def analyze_text(book, text):
     '''Performs a very naive analysis of the words in the text, returning the SORTED list of WordData items'''
     # lowercase the entire text
+    
 
     # split the text by whitespace to get a list of words
 
@@ -34,12 +35,12 @@ def analyze_text(book, text):
     # count up the occurance of each word into a dictionary of: word -> count
 
     # create a WordData item for each word in our list of words
-        
+
     # sort the WordData list using Bubble Sort, Insertion Sort, or Selection Sort:
     # 1. highest percentage [descending]
     # 2. highest count (if percentages are equal) [descending]
     # 3. lowest alpha order (if percentages and count are equal) [ascending]
-    
+
     # return
 
 
@@ -51,9 +52,9 @@ def print_words(words, threshold=None, word=None):
     # print the words over the threshold_percent or that match the given word
 
     # print an empty line
-    
 
-    
+
+
 #######################
 ###   Main loop
 
@@ -61,9 +62,11 @@ def main():
     '''Main program'''
     master = []
     # loop through the filenames and analyze each one
+    for i in range(len(FILENAMES)):
+        analyze_text(FILENAMES[i][0], FILENAMES[i][1])
     # after analyzing each file, merge the master and words lists into a single, sorted list (which becomes the new master list)
     print('INDIVIDUAL BOOKS > 2%')
-                
+
     # print each book, word, count, percent in master list with percent over 2
     print('MASTER LIST > 2%')
 
@@ -72,11 +75,11 @@ def main():
 
     # read the full text of the BoM and analyze it
     print('FULL TEXT > 2%')
-    
+
 
 
 #######################
 ###   Runner
 
-if __name__ == '__main__':       
-    main() 
+if __name__ == '__main__':
+    main()
