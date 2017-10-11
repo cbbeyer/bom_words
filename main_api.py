@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import tempfile
 import sys
+import re
 
 FILENAMES = [
     [ '1 Nephi',         '01-1 Nephi.txt' ],
@@ -38,18 +39,51 @@ def analyze_text(book, text):
 
     out = open(text, 'w')
 
+
     for line in t:
         out.write(line)
 
     t.close()
+    out.close()
 
 
-    # split the text by whitespace to get a list of words
+    if text == '01-1 Nephi.txt':
 
-    # convert each word to the longest run of characters
-    # eliminate any words that are empty after conversion to characters
+        new_file = open(text, 'r')
 
-    # count up the occurance of each word into a dictionary of: word -> count
+        string_file = new_file.read()
+
+        # split the text by whitespace to get a list of words
+        parsed_file = re.split('\s+', string_file)
+        words = []
+
+        for i in parsed_file:
+            new_i = re.findall("[a-z]+", i)
+            if len(new_i) > 1:
+
+                # convert each word to the longest run of characters
+                if len(new_i[0]) >= len(new_i[1]):
+                    del new_i[1]
+                else:
+                    del new_i[0]
+
+            # eliminate any words that are empty after conversion to characters
+            if new_i:
+                words.append(new_i)
+
+        # count up the occurance of each word into a dictionary of: word -> count
+        agg_words = {}
+        for w in words:
+            if w[0] in agg_words:
+                temp_count = agg_words[w[0]]
+                temp_count += 1
+                agg_words[w[0]] = temp_count
+            else:
+                agg_words[w[0]] = 1
+
+        print(agg_words)
+
+
 
     # create a WordData item for each word in our list of words
 
@@ -59,7 +93,6 @@ def analyze_text(book, text):
     # 3. lowest alpha order (if percentages and count are equal) [ascending]
 
     # return
-
 
 ################################
 ###   Prints a words list
