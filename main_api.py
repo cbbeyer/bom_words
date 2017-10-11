@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import tempfile
 import sys
 
 FILENAMES = [
@@ -26,10 +27,21 @@ FILENAMES = [
 def analyze_text(book, text):
     '''Performs a very naive analysis of the words in the text, returning the SORTED list of WordData items'''
     # lowercase the entire text
-    file = open(text, 'rW')
+    t = tempfile.NamedTemporaryFile(mode='r+')
+    file = open(text, 'r')
 
     for line in file:
-        file.write(line.lower())
+        t.write(line.lower())
+
+    file.close()
+    t.seek(0)
+
+    out = open(text, 'w')
+
+    for line in t:
+        out.write(line)
+
+    t.close()
 
 
     # split the text by whitespace to get a list of words
