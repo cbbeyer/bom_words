@@ -200,4 +200,3 @@ Book of Mormon,and,16772,6.0
 Book of Mormon,of,12240,4.4
 Book of Mormon,that,6888,2.5
 Book of Mormon,to,6715,2.4
-

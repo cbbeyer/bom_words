@@ -4,6 +4,7 @@ from merge_api  import merge_lists
 from worddata import WordData
 from bubble_sort import bubbleSort
 from insertion_sort import insertionSort
+from selection_sort import selectionSort
 
 FILENAMES = [
     [ '1 Nephi',         '01-1 Nephi.txt' ],
@@ -69,21 +70,16 @@ def analyze_text(book, text):
         wordData = WordData(book, key, agg_words[key], agg_words[key]/len(words)*100)
         word_objects.append(wordData)
 
-    # print out words over certain threshold - MAYBE DO THIS IN MAIN() ?????
-    # print_words(word_objects, 2)
-    # print()
-
-    # sorted_words = bubbleSort(word_objects)
-    sorted_words = insertionSort(word_objects)
-
-    if text == '01-1 Nephi.txt':
-        print_words(sorted_words)
-        print()
     # sort the WordData list using Bubble Sort, Insertion Sort, or Selection Sort:
     # 1. highest percentage [descending]
     # 2. highest count (if percentages are equal) [descending]
     # 3. lowest alpha order (if percentages and count are equal) [ascending]
 
+    # sorted_words = bubbleSort(word_objects)
+    sorted_words = insertionSort(word_objects)
+    # sorted_words = selectionSort(word_objects)
+
+    return sorted_words
     # return
 
 ################################
@@ -92,20 +88,13 @@ def analyze_text(book, text):
 def print_words(words, threshold=None, word=None):
     '''Prints a list of words'''
     # print the words over the threshold_percent or that match the given word
-    # if threshold is not None:
     for word in words:
         if threshold is not None:
             if word.percent > threshold:
                 print(word.book, word.word, word.count, format(word.percent, '.1f'))
         else:
             print(word.book, word.word, word.count, format(word.percent, '.1f'))
-    # else:
-    #     print(format(word.percent, '.1f'), word.word)
-
-
-
-    # print an empty line
-
+    print()
 
 
 #######################
@@ -117,8 +106,16 @@ def main():
     # loop through the filenames and analyze each one
     print('INDIVIDUAL BOOKS > 2%')
     for i in range(len(FILENAMES)):
-        analyze_text(FILENAMES[i][0], FILENAMES[i][1])
+        words = analyze_text(FILENAMES[i][0], FILENAMES[i][1])
+        print_words(words, 2)
+
+
+        master = merge_lists(master, words)
+
+    print_words(reversed(master), 2)
         # ADD TO MASTER
+        # call merge and pass in words and master
+
     # after analyzing each file, merge the master and words lists into a single, sorted list (which becomes the new master list)
 
 
