@@ -3,6 +3,7 @@ import sys, re
 from merge_api  import merge_lists
 from worddata import WordData
 from bubble_sort import bubbleSort
+from insertion_sort import insertionSort
 
 FILENAMES = [
     [ '1 Nephi',         '01-1 Nephi.txt' ],
@@ -72,11 +73,12 @@ def analyze_text(book, text):
     # print_words(word_objects, 2)
     # print()
 
-    sorted_words = bubbleSort(word_objects)
+    # sorted_words = bubbleSort(word_objects)
+    sorted_words = insertionSort(word_objects)
 
-    # if text == '01-1 Nephi.txt':
-    print_words(sorted_words, 2)
-    print()
+    if text == '01-1 Nephi.txt':
+        print_words(sorted_words)
+        print()
     # sort the WordData list using Bubble Sort, Insertion Sort, or Selection Sort:
     # 1. highest percentage [descending]
     # 2. highest count (if percentages are equal) [descending]
