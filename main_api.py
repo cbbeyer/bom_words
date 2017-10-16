@@ -67,7 +67,8 @@ def analyze_text(book, text):
     word_objects = []
 
     for key in agg_words:
-        wordData = WordData(book, key, agg_words[key], agg_words[key]/len(words)*100)
+        # percent needs to be stored rounded to 1 decimal or the printing doesn't work correctly
+        wordData = WordData(book, key, agg_words[key], round(agg_words[key]/len(words)*100, 1))
         word_objects.append(wordData)
 
     # sort the WordData list using Bubble Sort, Insertion Sort, or Selection Sort:
@@ -88,12 +89,23 @@ def analyze_text(book, text):
 def print_words(words, threshold=None, word=None):
     '''Prints a list of words'''
     # print the words over the threshold_percent or that match the given word
-    for word in words:
-        if threshold is not None:
-            if word.percent > threshold:
-                print(word.book, word.word, word.count, format(word.percent, '.1f'))
+    for w in words:
+        if threshold is not None and word is not None:
+            if w.percent > threshold and w.word == word:
+                # print('{}, {}, {}, {}'.format(w.book, w.word, w.count, format(w.percent, '.1f')))
+                print('{},{},{},{}'.format(w.book, w.word, w.count, w.percent))
+
+        elif threshold is not None:
+            if w.percent > threshold:
+                # print('{}, {}, {}, {}'.format(w.book, w.word, w.count, format(w.percent, '.1f')))
+                print('{},{},{},{}'.format(w.book, w.word, w.count, w.percent))
+        elif word is not None:
+            if w.word == word:
+                # print('{}, {}, {}, {}'.format(w.book, w.word, w.count, format(w.percent, '.1f')))
+                print('{},{},{},{}'.format(w.book, w.word, w.count, w.percent))
         else:
-            print(word.book, word.word, word.count, format(word.percent, '.1f'))
+            # print('{}, {}, {}, {}'.format(w.book, w.word, w.count, format(w.percent, '.1f')))
+            print('{},{},{},{}'.format(w.book, w.word, w.count, w.percent))
     print()
 
 
@@ -107,31 +119,33 @@ def main():
     print('INDIVIDUAL BOOKS > 2%')
     for i in range(len(FILENAMES)):
         words = analyze_text(FILENAMES[i][0], FILENAMES[i][1])
-        print_words(words, 2)
+        print_words(reversed(words), 2)
 
-
+        # after analyzing each file, merge the master and words lists into a single, sorted list (which becomes the new master list)
         master = merge_lists(master, words)
-
-    print_words(reversed(master), 2)
-        # ADD TO MASTER
-        # call merge and pass in words and master
-
-    # after analyzing each file, merge the master and words lists into a single, sorted list (which becomes the new master list)
 
 
     # print each book, word, count, percent in master list with percent over 2
     print('MASTER LIST > 2%')
+    print_words(reversed(master), 2)
+    # ADD TO MASTER
 
     # print each book, word, count, percent in master list with word == 'christ'
     print('MASTER LIST == christ')
+    print_words(reversed(master), 0, 'christ')
 
     # read the full text of the BoM and analyze it
     print('FULL TEXT > 2%')
-
+    words = analyze_text('Book of Mormon', '00-Book of Mormon.txt')
+    print_words(reversed(words), 2)
 
 
 #######################
 ###   Runner
 
-if __name__ == '__main__':
-    main()
+with open('output.txt', 'w') as f:
+    orig_stdout = sys.stdout
+    sys.stdout = f
+    if __name__ == '__main__':
+        main()
+    sys.stdout = orig_stdout
