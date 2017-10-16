@@ -57,6 +57,12 @@ class SortTesting(unittest.TestCase):
 
         self.assertEqual(sorted_words[0].word, 'a')
 
+    def test_bubbleSort_array_last_val(self):
+        words = self.test_create_WordData_array()
+        sorted_words = bubbleSort(words)
+
+        self.assertEqual(sorted_words[7].word, 'm')
+
     def test_bubbleSort_fail(self):
         words = self.test_create_WordData_array()
         sorted_words = bubbleSort(words)
@@ -71,6 +77,12 @@ class SortTesting(unittest.TestCase):
         sorted_words = selectionSort(words)
 
         self.assertEqual(sorted_words[0].word, 'a')
+
+    def test_selectionSort_array_last_val(self):
+        words = self.test_create_WordData_array()
+        sorted_words = selectionSort(words)
+
+        self.assertEqual(sorted_words[7].word, 'm')
 
     def test_selectionSort_fail(self):
         words = self.test_create_WordData_array()
@@ -87,6 +99,12 @@ class SortTesting(unittest.TestCase):
 
         self.assertEqual(sorted_words[0].word, 'a')
 
+    def test_insertionSort_array_last_val(self):
+        words = self.test_create_WordData_array()
+        sorted_words = insertionSort(words)
+
+        self.assertEqual(sorted_words[7].word, 'm')
+
     def test_insertionSort_fail(self):
         words = self.test_create_WordData_array()
         sorted_words = insertionSort(words)
@@ -94,13 +112,43 @@ class SortTesting(unittest.TestCase):
         self.assertEqual(sorted_words[7].word, 'f')
 
     # MERGING TWO LISTS TOGETHER
-    # test_create_WordData_array2
+    def test_merge_two_lists(self):
+        words = self.test_create_WordData_array()
+        words2 = self.test_create_WordData_array2()
+
+        sorted_words = selectionSort(words)
+        sorted_words2 = selectionSort(words2)
+
+        merged_list = merge_lists(sorted_words, sorted_words2)
+
+        self.assertEqual(merged_list[1].word, 'b')
+
+    def test_merge_two_lists_last_val_fail(self):
+        words = self.test_create_WordData_array()
+        words2 = self.test_create_WordData_array2()
+
+        sorted_words = selectionSort(words)
+        sorted_words2 = selectionSort(words2)
+
+        merged_list = merge_lists(sorted_words, sorted_words2)
+
+        self.assertEqual(merged_list[14].word, 'l')
+
+    def test_merge_two_lists_first_val(self):
+        words = self.test_create_WordData_array()
+        words2 = self.test_create_WordData_array2()
+
+        sorted_words = selectionSort(words)
+        sorted_words2 = selectionSort(words2)
+
+        merged_list = merge_lists(sorted_words, sorted_words2)
+
+        self.assertEqual(merged_list[14].word, 'o')
 
 
-#
-#
-# merged_list = merge_lists(sorted_words, sorted_words2)
-#
-# for word in merged_list:
-#     print(word.word, word.count, word.percent)
-# print_words(merged_list)
+
+    # CREATING WORD DATA object
+    def test_create_wordData_object(self):
+        word_data = WordData('1 Nephi', 'the', '209', '5')
+
+        self.assertEqual(word_data.book, '1 Nephi')
